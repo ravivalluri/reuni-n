@@ -1,6 +1,6 @@
 <!-- <div #gmap class="maps"></div> -->
 <div class="style-selection selection" *ngIf="!styleSelected">
-    <label>Select a style of dance</label>
+    <label>Select a style of meeting</label>
     <div clas="content">
         <button type="button" class="btn btn-outline-primary m-2" *ngFor="let style of styles" (click)="setStyleSelected(style)" >{{style.name}}</button>
     </div>
