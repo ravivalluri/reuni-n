@@ -1,0 +1,26 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "reunion-frontend"
+  namespace: "default"
+  labels:
+    app: "reunion-frontend"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "reunion-frontend"
+  template:
+    metadata: 
+      labels:
+        app: "reunion-frontend"
+    spec:
+      containers:
+      - env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              key: BACKEND_URL
+              name: reunion-frontend-config
+        name: "frontend"
+        image: gcr.io/reunion/github.com/maiconpintoabreu/reunion/frontend

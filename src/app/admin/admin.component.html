@@ -1,0 +1,27 @@
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" routerLink="/home">
+      <img alt="Brand" src="assets/logo.png" alt="Reunión" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav justify-content-end">
+        <li class="nav-item" role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+        </li>
+        <li class="nav-item" role="presentation" routerLinkActive="active" *ngIf="organizer">
+          <a class="nav-link" routerLink="./classes" routerLinkActive="active">Classes</a>
+        </li>
+        <li class="nav-item" role="presentation" routerLinkActive="active" *ngIf="organizer">
+          <a class="nav-link" routerLink="./students" routerLinkActive="active">Students</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" href="#" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+</div>

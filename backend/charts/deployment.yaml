@@ -1,0 +1,67 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "reunion-backend"
+  namespace: "default"
+  labels:
+    app: "reunion-backend"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "reunion-backend"
+  template:
+    metadata:
+      labels:
+        app: "reunion-backend"
+    spec:
+      containers:
+      containers:
+      - env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              key: PORT
+              name: reunion-backend-config
+        - name: docker
+          valueFrom:
+            configMapKeyRef:
+              key: docker
+              name: reunion-backend-config
+        - name: MONGO
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO
+              name: reunion-backend-config
+        - name: MONGO_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_PORT
+              name: reunion-backend-config
+        - name: MONGO_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_PREFIX
+              name: reunion-backend-config
+        - name: MONGO_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_USER
+              name: reunion-backend-config
+        - name: MONGO_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_PASSWORD
+              name: reunion-backend-config
+        - name: MONGO_PARAMS
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_PARAMS
+              name: reunion-backend-config
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_DATABASE
+              name: reunion-backend-config
+        image: gcr.io/reunion/github.com/maiconpintoabreu/reunion/backend
+        name: backend

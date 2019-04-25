@@ -1,0 +1,65 @@
+<!-- <div #gmap class="maps"></div> -->
+<div class="style-selection selection" *ngIf="!styleSelected">
+    <label>Select a style of dance</label>
+    <div clas="content">
+        <button type="button" class="btn btn-outline-primary m-2" *ngFor="let style of styles" (click)="setStyleSelected(style)" >{{style.name}}</button>
+    </div>
+</div>
+<div class="country-selection selection" *ngIf="styleSelected && !countrySelected">
+    <label>Select a country</label>
+    <div clas="content">
+        <button type="button" class="btn btn-outline-primary m-2" *ngFor="let country of countries" (click)="setCountrySelected(country)"  >{{country}}</button>
+    </div>
+</div>
+<div class="city-selection selection" *ngIf="styleSelected && countrySelected && !citySelected">
+    <label>Select a city</label>
+    <div clas="content">
+        <button type="button" class="btn btn-outline-primary m-2" *ngFor="let city of cities" (click)="setCitySelected(city)" >{{city}}</button>
+    </div>
+</div>
+<div class="class-selection selection" *ngIf="styleSelected && countrySelected && citySelected">
+    <label>Select an event</label>
+    <div class="content">
+        <div class="card m-2 text-white bg-dark" *ngFor="let event of eventList" (click)="showBookingModel(event._id)">
+            <div class="card-header large text-center font-weight-bold text-capitalize">
+                {{event.name |  textLimit:["20","..."]}}
+            </div>
+            <div class="card-body">
+                <div class="card-text">
+                    <div class="row border-bottom pb-2">
+                        <div class="col-6">
+                            <div class="fromDate">{{event.fromDateFormated}}</div>
+                            <div class="fromTime small">Starting at {{event.fromTimeFormated}}</div>
+                        </div>
+                        <div class="col">
+                            <div class="toDate">{{event.toDateFormated}}</div>
+                            <div class="toTime small">Finishing at {{event.toTimeFormated}}</div>
+                        </div>
+                    </div>
+                    <div class="row m-0 pt-1" *ngIf="event.repeat">
+                        Recurrence: {{event.repeat}} 
+                    </div>
+                    <div class="row m-1">
+                        Place: {{event.place.description }}
+                    </div>
+                    <div class="row m-1">
+                        City: {{event.place.city |  textLimit:["18","..."]}}
+                    </div>
+                    <div class="row m-1">
+                        Country: {{event.place.country |  textLimit:["18","..."]}}
+                    </div>
+                    <div class="row m-1">
+                        Style: {{event.danceStyle.name |  textLimit:["18","..."]}}
+                    </div>
+                    <div class="row pt-1">
+                        <button type="button" class="btn  btn-light m-auto">Get your spot</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="reset-action reset" *ngIf="styleSelected">
+    <button type="button" class="btn btn-info" (click)="reset()">Reset Search</button>
+</div>
+<router-outlet class="router-outlet"></router-outlet>

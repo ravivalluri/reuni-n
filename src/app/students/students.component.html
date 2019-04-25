@@ -1,0 +1,47 @@
+<button type="button" class="btn btn-primary mb-3" [routerLink]="['./new']">New Student</button>
+<div class="table-responsive d-none d-md-block">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <!-- <th>Date of birth</th> -->
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students" [routerLink]="['./detail', student._id]">
+        <th scope="row">{{ student._id }}</th>
+        <td>{{ student.name }}</td>
+        <td>{{ student.email }}</td>
+        <!-- <td>{{ student.dateOfBirth }}</td> -->
+        <td>
+          <span class="badge badge-primary badge-pill">
+            <a 
+              (click)="deleteStudent(student._id);$event.stopPropagation()">
+              X
+            </a>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="d-block d-md-none">
+  <ul class="list-group mb-3" *ngFor="let student of students" [routerLink]="['./detail', student._id]">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span class="header-grid">#</span>
+      <span class="value-grid">{{ student._id }}</span>
+      <span class="badge badge-primary badge-pill">
+        <a 
+          (click)="deleteStudent(student._id);$event.stopPropagation()">
+          X
+        </a>
+      </span>
+    </li>
+    <li class="list-group-item"><span class="header-grid">Name</span><span class="value-grid">{{ student.name }}</span></li>
+    <li class="list-group-item"><span class="header-grid">Email</span><span class="value-grid">{{ student.email }}</span></li>
+    <li class="list-group-item"><span class="header-grid">Date of birth</span><span class="value-grid">{{ student.dateOfBirth }}</span></li>
+  </ul>
+</div>

@@ -1,0 +1,21 @@
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  artifacts:
+  - image: gcr.io/reunion/github.com/maiconpintoabreu/reunion/backend
+    context: backend
+  - image: gcr.io/reunion/github.com/maiconpintoabreu/reunion/frontend
+    context: .
+deploy:
+  kubectl:
+    manifests:
+    - backend/charts/configmap.yaml
+    - backend/charts/deployment.yaml
+    # - backend/charts/horizontal-pod-autoscaler.yaml
+    - backend/charts/service.yaml
+    - charts/configmap.yaml
+    - charts/development.yaml
+    - charts/service.yaml
+    - ngrok/charts/configmap.yaml
+    - ngrok/charts/development.yaml
+    - ngrok/charts/service.yaml

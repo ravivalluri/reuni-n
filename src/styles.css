@@ -1,0 +1,10 @@
+.header-grid{
+    width: 33.33333333%;
+    display: inline-block;
+}
+.value-grid{
+    width: 66.66666667%;
+}
+.collapse .nav {
+    width: 100%;
+}

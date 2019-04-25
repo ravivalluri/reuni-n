@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    frontend:
+        build: .
+        ports:
+            - 80:80
+        depends_on: 
+            - backend
+        environment:
+            BACKEND_URL: "http://backend/"
+    mongo:
+        image: mongo:4.0.1
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=reunionuserusuario
+            - MONGO_INITDB_ROOT_PASSWORD=123asd123z
+            - MONGO_INITDB_DATABASE=reunion
+        volumes:
+            - "./backend/data:/data"
+        ports:
+            - 27017:27017
+    backend:
+        build: backend/.
+        restart: always
+        environment:
+            docker: "true"
+            PORT: 80
+            MONGO: "mongo"
+            MONGO_PORT: ":27017"
+            MONGO_PREFIX: "mongodb://"
+            MONGO_USER: "reunionuserusuario"
+            MONGO_PASSWORD: "123asd123z"
+        ports:
+            - "8080:80"
+        volumes:
+            - "./backend/.:/backend-reunion"
+        depends_on: 
+            - mongo

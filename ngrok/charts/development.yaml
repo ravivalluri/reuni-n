@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ngrok-wernight
+  namespace: default
+  labels:
+    app: ngrok-wernight
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ngrok-wernight
+  template:
+    metadata:
+      labels:
+        app: ngrok-wernight
+    spec:
+      containers:
+      - env:
+        - name: NGROK_REMOTE_ADDR
+          valueFrom:
+            configMapKeyRef:
+              key: NGROK_REMOTE_ADDR
+              name: ngrok-wernight-config
+        - name: NGROK_AUTH
+          valueFrom:
+            configMapKeyRef:
+              key: NGROK_AUTH
+              name: ngrok-wernight-config
+        - name: NGROK_SUBDOMAIN
+          valueFrom:
+            configMapKeyRef:
+              key: NGROK_SUBDOMAIN
+              name: ngrok-wernight-config
+        - name: NGROK_PROTOCOL
+          valueFrom:
+            configMapKeyRef:
+              key: NGROK_PROTOCOL
+              name: ngrok-wernight-config
+        - name: NGROK_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NGROK_PORT
+              name: ngrok-wernight-config
+        name: ngrok
+        image: wernight/ngrok:latest

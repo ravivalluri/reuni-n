@@ -1,0 +1,145 @@
+<div class="container">
+  <h1 *ngIf="!isDetail">New Class</h1>
+  <h1 *ngIf="isDetail">Class</h1>
+  <form [formGroup]="classForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" formControlName="name" id="name" required>
+    </div>
+    <div class="form-group">
+      <label for="danceStyleId">Dance Style</label>
+      <select class="form-control" formControlName="danceStyleId" id="danceStyleId" required>
+        <option *ngFor="let danceStyle of danceStyles" [value]="danceStyle._id">{{danceStyle.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="about">More Information</label>
+      <textarea type="text" class="form-control" formControlName="about" id="about" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="date">Date {{fromDate ? fromDate.day+'/'+fromDate.month+'/'+fromDate.year: ''}} - {{toDate ? toDate.day+'/'+toDate.month+'/'+toDate.year:''}}</label>
+
+    <div class="d-flex justify-content-start" for="date">
+      <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" class="d-none d-md-block">
+      </ngb-datepicker>
+      <ngb-datepicker #dpmobile (select)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden" class="d-block d-md-none">
+      </ngb-datepicker>
+
+      <ng-template #t let-date let-focused="focused">
+        <span class="custom-day"
+              [class.focused]="focused"
+              [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)"
+              (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+    </div>
+    <div formGroupName="timeGroup">
+      <div class="form-group">
+        <label for="fromTime  ">From</label>
+        <ngb-timepicker id="fromTime" formControlName="fromTime" [meridian]="meridian"></ngb-timepicker>
+      </div>
+      <div class="form-group">
+          <label for="toTime">To</label>
+        <ngb-timepicker id="toTime" formControlName="toTime" [meridian]="meridian"></ngb-timepicker>
+      </div>
+    </div>
+    <div class="small form-text text-danger" *ngIf="!classForm.valid && classForm.errors">
+      <div *ngIf="classForm.errors['tooEarly']">Event finishing before starts</div>
+    </div>
+    <div class="form-group">
+      <a class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+        Meridian - {{meridian ? "ON" : "OFF"}}
+      </a>
+    </div>
+    <div class="form-group">
+      <label for="repeat">Repeat</label><br />
+      <div class="btn-group btn-group-toggle" ngbRadioGroup formControlName="repeat" id="repeat">
+        <label ngbButtonLabel class="btn-outline-primary btn-sm">
+          <input ngbButton type="radio" value="">No Repeat
+        </label>
+        <label ngbButtonLabel class="btn-outline-primary btn-sm">
+          <input ngbButton type="radio" value="monthly">Monthly
+        </label>
+        <label ngbButtonLabel class="btn-outline-primary btn-sm">
+          <input ngbButton type="radio" value="weekly">Weekly
+        </label>
+      </div>
+    </div>
+    <div formGroupName="place">
+      <h3>Address</h3>
+      <div class="form-group autocomplete">
+        <label for="country">Country</label>
+        <input type="text" class="form-control" formControlName="country"  autocomplete="off" autocomplete="new-password" id="country" required (keyup)="getCountry($event)">
+        <div class="autocomplete-items">
+          <div *ngFor="let countrySuggestion of countrySuggestions" (click)="setCountry(countrySuggestion)">
+            {{ countrySuggestion }}
+          </div>
+        </div>
+      </div>
+      <div class="form-group autocomplete">
+        <label for="city">City</label>
+        <input type="text" class="form-control" formControlName="city" id="city"  autocomplete="off" autocomplete="new-password" required (keyup)="getCity($event)">
+        <div class="autocomplete-items">
+          <div *ngFor="let citySuggestion of citySuggestions" (click)="setCity(citySuggestion)">
+            {{ citySuggestion }}
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" max="88" maxlength="88" formControlName="description" id="description" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success" [disabled]="!classForm.valid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="goBack()">Back</button>
+    </div>
+    <label class="alert" *ngIf="isDetail">Below this part make sure that you saved all your changes.</label>
+    <div class="form-group" *ngIf="students.length > 0">
+      <table class="table table-striped d-none d-md-block">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <th scope="row">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="studentSelected{{ student._id }}" [checked]="student.selected" (click)="toggleStudentSelected(student._id)">
+                <label class="custom-control-label" for="studentSelected{{ student._id }}"></label>
+              </div>
+            </th>
+            <td (click)="toggleStudentSelected(student._id)">{{ student.name }}</td>
+            <td (click)="toggleStudentSelected(student._id)">{{ student.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--//[routerLink]="['../../../students/detail/', student._id]" -->
+      <div class="d-block d-md-none"> 
+        <ul class="list-group" *ngFor="let student of students" (click)="toggleStudentSelected(student._id)">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="studentSelected{{ student._id }}" [checked]="student.selected" (click)="toggleStudentSelected(student._id)">
+                <label class="custom-control-label" for="studentSelected{{ student._id }}"></label>
+              </div>
+          </li>
+          <li class="list-group-item"><span class="header-grid">Name</span><span class="value-grid">{{ student.name }}</span></li>
+          <li class="list-group-item"><span class="header-grid">Email</span><span class="value-grid">{{ student.email }}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-success" [disabled]="!classForm.valid" [routerLink]="['send']">Send Ticket</button>
+      <button type="button" class="btn btn-default" (click)="goBack()">Back</button>
+    </div>
+  </form>
+</div>
+<router-outlet class="router-outlet"></router-outlet>

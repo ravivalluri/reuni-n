@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 *ngIf="!isDetail">New Student</h1>
+  <h1 *ngIf="isDetail">Student</h1>
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name"
+              required
+              [(ngModel)]="model.name" name="name"
+              #name="ngModel">
+      <div [hidden]="name.valid || name.pristine"
+            class="alert alert-danger">
+        Name is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email"
+              required [disabled]="isDetail"
+              [(ngModel)]="model.email" name="email"
+              #email="ngModel">
+      <div [hidden]="email.valid || email.pristine"
+            class="alert alert-danger">
+        Email is required
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <label for="dateOfBirth">Day of born</label>
+      <input type="text" class="form-control" id="dateOfBirth"
+              required
+              [(ngModel)]="model.dateOfBirth" name="dateOfBirth"
+              #dateOfBirth="ngModel">
+      <div [hidden]="dateOfBirth.valid || dateOfBirth.pristine"
+            class="alert alert-danger">
+        Day of born is required
+      </div>
+    </div> -->
+    <button type="submit" class="btn btn-success" [disabled]="!form.form.valid">Submit</button>
+    <button type="button" class="btn btn-default" (click)="goBack()">Back</button>
+  </form>
+</div>

@@ -1,0 +1,37 @@
+<div class="fog" routerLink="/home/">
+</div>
+<div class="model-on-map">
+    <div class="container-fuild">
+        <form [formGroup]="signupForm" (ngSubmit)="signupSubmit()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" class="form-control" formControlName="username" placeholder="Username:" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" class="form-control" formControlName="email" placeholder="Email:" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="username" type="password" class="form-control" formControlName="password" placeholder="Password:" required>
+            </div>
+            <div class="form-group custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="student"  formControlName="student" name="student" disabled>
+                <label class="custom-control-label" for="student">Student</label>
+            </div>
+            <div class="form-group custom-control custom-switch">
+                <input type="checkbox" #o class="custom-control-input" id="organizer" formControlName="organizer" >
+                <label class="custom-control-label" for="organizer">Organizer</label>
+            </div>
+            <div class="form-group" [hidden]="!signupForm.value['organizer']">
+                <label for="company">Company</label>
+                <input id="company" name="username" class="form-control" formControlName="company" placeholder="Company:" [required]="signupForm.value['organizer']">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid">Sign up</button>
+                <img *ngIf="loading" class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </div>
+            <div *ngIf="signupForm.errors" class="alert alert-danger">{{signupForm.errors['responseError']}}</div>
+        </form>
+    </div>
+</div>
